@@ -1,9 +1,13 @@
 # Import the libraries
 import hikari
 import lightbulb
+from dotenv import load_dotenv
 
+load_dotenv()
+
+token = environ["TOKEN"]
 # Create a GatewayBot instance
-bot = hikari.GatewayBot("your_token_here")
+bot = hikari.GatewayBot(token)
 client = lightbulb.client_from_app(bot)
 
 # Ensure the client will be started when the bot is run
