@@ -1,4 +1,9 @@
-# Import the libraries
+# TODO: 
+# Create event using hikari api (/command)
+# Read that event's details to make sure it was created properly and see what the bot can access (using /command)
+# Figure out scheduling messages based on event times
+# Schedule a simple message send using a /command
+# Schedule a message based off of an event time
 import hikari
 import lightbulb
 from dotenv import dotenv_values

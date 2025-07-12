@@ -8,8 +8,8 @@ in
 pkgs.mkShellNoCC {
   packages = with pkgs; [
     python313
-    python313Packages.python-dotenv
-    python313Packages.hikari
-    python313Packages.hikari-lightbulb
+    # python313Packages.python-dotenv
+    # python313Packages.hikari
+    # python313Packages.hikari-lightbulb
   ];
 }
