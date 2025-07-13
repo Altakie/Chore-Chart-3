@@ -8,6 +8,7 @@
 import hikari
 import lightbulb
 from dotenv import dotenv_values
+from datetime import datetime, timedelta, timezone
 
 secrets = dotenv_values("token.env")
 
@@ -37,7 +38,7 @@ class Ping(
         username = user.username
         mention = user.mention
         global_name = user.global_name
-        await ctx.respond(f"Pong! Your son is alive {username}. Please respond to me {mention}. Your global name is {global_name}")
+        await ctx.respond(f"{mention} Pong!")
 
 @client.register()
 class Fathers(
@@ -55,18 +56,29 @@ class Fathers(
         await ctx.respond("I love my fathers")
 
 @client.register()
-class CreateEvent(
+class Receipt(
     # Command type - builtins include SlashCommand, UserCommand, and MessageCommand
     lightbulb.SlashCommand,
     # Command declaration parameters
-    name="create-event",
-    description="creates a new discord event",
+    name="receipt",
+    description="Creates a new receipt event",
 ):
-    event_name = lightbulb.string("name", "the name of the event")
+    attachment = lightbulb.attachment("receipt", "An image of the receipt")
     @lightbulb.invoke
     async def invoke(self, ctx: lightbulb.Context) -> None:
         # Send a message to the channel the command was used in
-        await ctx.respond(f"Tried to create event {self.event_name}")
+        await ctx.respond(f"@everyone {ctx.user.mention} just uploaded a receipt:\n{self.attachment.url}\nPlease respond to this message to take responsibility for it")
+        guild = ctx.guild_id
+        date = datetime.now(timezone.utc)
+        await ctx.respond(f"Event time: {str(date + timedelta(hours=1))}")
+        await bot.rest.create_external_event(guild,
+                                       f"{ctx.member.display_name}'s Receipt {datetime.now().strftime("%m/%d/%y")}",
+                                       "None",
+                                       (date + timedelta(minutes=2)), (date + timedelta(days=5)),
+                                       description="A receipt event. Please assign yourself to the event through the \"interested\" button",
+                                        image=self.attachment
+                                       )
+
 
 @client.register()
 class ReadEvent(
