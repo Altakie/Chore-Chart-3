@@ -1,1 +1,1 @@
-./bin/python -OO -m bot
+./venv/bin/python -OO -m bot
