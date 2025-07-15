@@ -29,6 +29,7 @@ async def get_default_channel(guild_id):
     await cur.close()
     return default_channel_id
 
+
 state = State()
 
 secrets = dotenv_values("token.env")
@@ -69,7 +70,7 @@ bot.subscribe(hikari.StoppedEvent, close_database)
 async def inform_of_event(create_event_event: hikari.ScheduledEventCreateEvent):
     event = create_event_event.event
     default_channel_id = await get_default_channel(event.guild_id)
-    time_to_event = (event.start_time - datetime.now(timezone.utc))
+    time_to_event = event.start_time - datetime.now(timezone.utc)
     hours = math.floor(time_to_event.seconds / 3600)
     minutes = math.ceil((time_to_event.seconds - (hours * 3600)) / 60)
     await bot.rest.create_message(
@@ -90,11 +91,13 @@ async def inform_of_event(create_event_event: hikari.ScheduledEventCreateEvent):
     #         content=f"{user.mention} It's time for {event.name}!",
     #     )
 
+
 bot.subscribe(hikari.ScheduledEventCreateEvent, inform_of_event)
+
 
 async def event_started(update_event: hikari.ScheduledEventUpdateEvent):
     event = update_event.event
-    if event.status != hikari.scheduled_events.ScheduledEventStatus.ACTIVE: 
+    if event.status != hikari.scheduled_events.ScheduledEventStatus.ACTIVE:
         return
 
     default_channel_id = await get_default_channel(event.guild_id)
