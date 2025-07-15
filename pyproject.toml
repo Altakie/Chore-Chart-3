@@ -1,0 +1,13 @@
+[project]
+name = "chore-chart-3"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    "aiosqlite>=0.21.0",
+    "dotenv>=0.9.9",
+    "hikari>=2.3.5",
+    "hikari-lightbulb>=3.0.2",
+    "python-dotenv>=1.1.1",
+]

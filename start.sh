@@ -1,1 +1,1 @@
-./venv/bin/python -OO -m bot
+uv run -m bot
