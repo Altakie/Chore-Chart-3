@@ -115,7 +115,7 @@ async def event_started(update_event: hikari.ScheduledEventUpdateEvent):
     for user in users:
         await bot.rest.create_message(
             default_channel_id,
-            content=f"{user.mention} It's time for {event.name}!",
+            content=f"{user.member.mention} It's time for {event.name}!",
         )
 
 
@@ -212,7 +212,7 @@ class Receipt(
 
 
 @client.register()
-class ReadEvent(
+class ReadEvents(
     # Command type - builtins include SlashCommand, UserCommand, and MessageCommand
     lightbulb.SlashCommand,
     # Command declaration parameters
@@ -250,29 +250,6 @@ class ScheduleMessage(
     async def invoke(self, ctx: lightbulb.Context) -> None:
         time = datetime.fromtimestamp(self.time)
         await ctx.respond(f"Time to send {time.strftime('%H:%M:%S')}")
-
-
-# @client.register()
-# class ReadEvent(
-#     # Command type - builtins include SlashCommand, UserCommand, and MessageCommand
-#     lightbulb.SlashCommand,
-#     # Command declaration parameters
-#     name="read-event",
-#     description="reads an existing discord event",
-# ):
-#     event_name = lightbulb.string("name", "the name of the event")
-#     @lightbulb.invoke
-#     async def invoke(self, ctx: lightbulb.Context) -> None:
-#         # Send a message to the channel the command was used in
-#         reponse = f"Reading event {self.event_name}\n"
-#         guild = ctx.guild_id
-#         events = await bot.rest.fetch_scheduled_events(guild=guild)
-#         for event in events:
-#             reponse += f"Id: {event.id}\nname: {event.name}\nstart time:{event.start_time}\nend_time: {event.end_time}\ndescription: {event.description}\n"
-#             users = await bot.rest.fetch_scheduled_event_users(guild=guild, event=event.id)
-#             for user in users:
-#                 response += f"{user.user.mention} is interested in this event"
-#                 await ctx.respond(reponse)
 
 # Run the bot
 # Note that this is blocking meaning no code after this line will run
